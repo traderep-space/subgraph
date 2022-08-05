@@ -1,0 +1,27 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
+dataSources:
+  # Forecast contract
+  - kind: ethereum
+    name: Forecast
+    network: mumbai
+    source:
+      address: "0x5A544F35Dd360B67B59027D6b0F539231BF0F0B0"
+      abi: Forecast
+      startBlock: 27472004
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Forecast
+      abis:
+        - name: Forecast
+          file: ./abis/Forecast.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/handlers/forecastHandlers.ts

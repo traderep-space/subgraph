@@ -1,0 +1,4 @@
+type Forecast @entity {
+  id: ID!
+  owner: String!
+}
