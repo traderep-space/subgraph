@@ -15,6 +15,9 @@ export class Forecast extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("author", Value.fromString(""));
+    this.set("owner", Value.fromString(""));
   }
 
   save(): void {
@@ -40,6 +43,15 @@ export class Forecast extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get author(): string {
+    let value = this.get("author");
+    return value!.toString();
+  }
+
+  set author(value: string) {
+    this.set("author", Value.fromString(value));
   }
 
   get owner(): string {
