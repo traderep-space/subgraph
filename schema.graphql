@@ -1,12 +1,11 @@
+type Trader @entity {
+  id: ID! # account address
+  positiveReputation: BigInt!
+  negativeReputation: BigInt!
+}
+
 type Forecast @entity {
   id: ID!
   author: String!
   owner: String!
-}
-
-type Reputation @entity {
-  id: ID! # owner address
-  owner: String!
-  positive: BigInt!
-  negative: BigInt!
 }

@@ -17,8 +17,8 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
+        - Trader
         - Forecast
-        - Reputation
       abis:
         - name: Forecast
           file: ./abis/Forecast.json

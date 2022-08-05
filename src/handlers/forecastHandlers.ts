@@ -1,36 +1,35 @@
 import { Address } from "@graphprotocol/graph-ts";
 import { ReputationUpdate, Transfer } from "../../generated/Forecast/Forecast";
-import { Forecast, Reputation } from "../../generated/schema";
+import { Forecast, Trader } from "../../generated/schema";
+import { getTrader } from "../utils";
 
 /**
  * Handle a tranfer event to create or update a forecast.
  */
 export function handleTransfer(event: Transfer): void {
-  // Find or create
+  // Get trader
+  let trader = getTrader(event.params.to.toHexString());
+  // Find or create forecast
   let forecast = Forecast.load(event.params.tokenId.toString());
   if (!forecast) {
     forecast = new Forecast(event.params.tokenId.toString());
   }
-  // Update params
-  forecast.owner = event.params.to.toHexString();
+  // Update forecat params
+  forecast.owner = trader.id;
   if (event.params.from.equals(Address.zero())) {
-    forecast.author = event.params.to.toHexString();
+    forecast.author = trader.id;
   }
   forecast.save();
 }
 
 /**
- * Handle a reputation update event to create or update a reputation.
+ * Handle a reputation update event to create or update a trader.
  */
 export function handleReputationUpdate(event: ReputationUpdate): void {
-  // Find or create
-  let reputation = Reputation.load(event.params.account.toHexString());
-  if (!reputation) {
-    reputation = new Reputation(event.params.account.toHexString());
-    reputation.owner = event.params.account.toHexString();
-  }
-  // Update reputation
-  reputation.positive = event.params.positiveReputation;
-  reputation.negative = event.params.negativeReputation;
-  reputation.save();
+  // Get trader
+  let trader = getTrader(event.params.account.toHexString());
+  // Update params
+  trader.positiveReputation = event.params.positiveReputation;
+  trader.negativeReputation = event.params.negativeReputation;
+  trader.save();
 }

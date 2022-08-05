@@ -11,6 +11,59 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class Trader extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("positiveReputation", Value.fromBigInt(BigInt.zero()));
+    this.set("negativeReputation", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Trader entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Trader must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Trader", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Trader | null {
+    return changetype<Trader | null>(store.get("Trader", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get positiveReputation(): BigInt {
+    let value = this.get("positiveReputation");
+    return value!.toBigInt();
+  }
+
+  set positiveReputation(value: BigInt) {
+    this.set("positiveReputation", Value.fromBigInt(value));
+  }
+
+  get negativeReputation(): BigInt {
+    let value = this.get("negativeReputation");
+    return value!.toBigInt();
+  }
+
+  set negativeReputation(value: BigInt) {
+    this.set("negativeReputation", Value.fromBigInt(value));
+  }
+}
+
 export class Forecast extends Entity {
   constructor(id: string) {
     super();
@@ -61,68 +114,5 @@ export class Forecast extends Entity {
 
   set owner(value: string) {
     this.set("owner", Value.fromString(value));
-  }
-}
-
-export class Reputation extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("owner", Value.fromString(""));
-    this.set("positive", Value.fromBigInt(BigInt.zero()));
-    this.set("negative", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Reputation entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Reputation must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Reputation", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Reputation | null {
-    return changetype<Reputation | null>(store.get("Reputation", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get owner(): string {
-    let value = this.get("owner");
-    return value!.toString();
-  }
-
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
-  }
-
-  get positive(): BigInt {
-    let value = this.get("positive");
-    return value!.toBigInt();
-  }
-
-  set positive(value: BigInt) {
-    this.set("positive", Value.fromBigInt(value));
-  }
-
-  get negative(): BigInt {
-    let value = this.get("negative");
-    return value!.toBigInt();
-  }
-
-  set negative(value: BigInt) {
-    this.set("negative", Value.fromBigInt(value));
   }
 }
