@@ -18,10 +18,13 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Forecast
+        - Reputation
       abis:
         - name: Forecast
           file: ./abis/Forecast.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: ReputationUpdate(address,uint256,uint256)
+          handler: handleReputationUpdate
       file: ./src/handlers/forecastHandlers.ts

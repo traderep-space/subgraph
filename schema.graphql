@@ -3,3 +3,10 @@ type Forecast @entity {
   author: String!
   owner: String!
 }
+
+type Reputation @entity {
+  id: ID! # owner address
+  owner: String!
+  positive: BigInt!
+  negative: BigInt!
+}
