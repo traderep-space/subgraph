@@ -9,9 +9,9 @@ dataSources:
     name: Forecast
     network: mumbai
     source:
-      address: "0xa6b7E5920392B03171bf72C39ffc749DaAeEd65D"
+      address: "0xf9822b4B26888129738be3B11052A7aeE090f3f0"
       abi: Forecast
-      startBlock: 27495348
+      startBlock: 27496227
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -27,6 +27,8 @@ dataSources:
           handler: handleTransfer
         - event: URISet(indexed uint256,string)
           handler: handleURISet
+        - event: Verify(indexed uint256,bool)
+          handler: handleVerify
         - event: ReputationUpdate(address,uint256,uint256)
           handler: handleReputationUpdate
       file: ./src/handlers/forecastHandlers.ts

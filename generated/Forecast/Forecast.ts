@@ -136,6 +136,28 @@ export class URISet__Params {
   }
 }
 
+export class Verify extends ethereum.Event {
+  get params(): Verify__Params {
+    return new Verify__Params(this);
+  }
+}
+
+export class Verify__Params {
+  _event: Verify;
+
+  constructor(event: Verify) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get isTrue(): boolean {
+    return this._event.parameters[1].value.toBoolean();
+  }
+}
+
 export class Forecast__getReputationResult {
   value0: BigInt;
   value1: BigInt;

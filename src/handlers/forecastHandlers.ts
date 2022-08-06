@@ -3,6 +3,7 @@ import {
   ReputationUpdate,
   Transfer,
   URISet,
+  Verify,
 } from "../../generated/Forecast/Forecast";
 import { Forecast } from "../../generated/schema";
 import { getTrader } from "../utils";
@@ -37,6 +38,21 @@ export function handleURISet(event: URISet): void {
   }
   // Update forecast params
   forecast.uri = event.params.tokenURI;
+  forecast.save();
+}
+
+/**
+ * Handle a verify event to update a forecast.
+ */
+export function handleVerify(event: Verify): void {
+  // Find forecast or return
+  let forecast = Forecast.load(event.params.tokenId.toString());
+  if (!forecast) {
+    return;
+  }
+  // Update forecast params
+  forecast.isVerified = true;
+  forecast.isTrue = event.params.isTrue;
   forecast.save();
 }
 

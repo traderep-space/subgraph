@@ -132,4 +132,22 @@ export class Forecast extends Entity {
       this.set("uri", Value.fromString(<string>value));
     }
   }
+
+  get isVerified(): boolean {
+    let value = this.get("isVerified");
+    return value!.toBoolean();
+  }
+
+  set isVerified(value: boolean) {
+    this.set("isVerified", Value.fromBoolean(value));
+  }
+
+  get isTrue(): boolean {
+    let value = this.get("isTrue");
+    return value!.toBoolean();
+  }
+
+  set isTrue(value: boolean) {
+    this.set("isTrue", Value.fromBoolean(value));
+  }
 }

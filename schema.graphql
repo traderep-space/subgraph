@@ -9,4 +9,6 @@ type Forecast @entity {
   author: String!
   owner: String!
   uri: String
+  isVerified: Boolean
+  isTrue: Boolean
 }
