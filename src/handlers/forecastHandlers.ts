@@ -1,6 +1,10 @@
 import { Address } from "@graphprotocol/graph-ts";
-import { ReputationUpdate, Transfer } from "../../generated/Forecast/Forecast";
-import { Forecast, Trader } from "../../generated/schema";
+import {
+  ReputationUpdate,
+  Transfer,
+  URISet,
+} from "../../generated/Forecast/Forecast";
+import { Forecast } from "../../generated/schema";
 import { getTrader } from "../utils";
 
 /**
@@ -19,6 +23,20 @@ export function handleTransfer(event: Transfer): void {
   if (event.params.from.equals(Address.zero())) {
     forecast.author = trader.id;
   }
+  forecast.save();
+}
+
+/**
+ * Handle a uri set event to update a forecast.
+ */
+export function handleURISet(event: URISet): void {
+  // Find forecast or return
+  let forecast = Forecast.load(event.params.tokenId.toString());
+  if (!forecast) {
+    return;
+  }
+  // Update forecast params
+  forecast.uri = event.params.tokenURI;
   forecast.save();
 }
 

@@ -8,4 +8,5 @@ type Forecast @entity {
   id: ID!
   author: String!
   owner: String!
+  uri: String
 }

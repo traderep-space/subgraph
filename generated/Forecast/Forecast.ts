@@ -114,6 +114,28 @@ export class Transfer__Params {
   }
 }
 
+export class URISet extends ethereum.Event {
+  get params(): URISet__Params {
+    return new URISet__Params(this);
+  }
+}
+
+export class URISet__Params {
+  _event: URISet;
+
+  constructor(event: URISet) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get tokenURI(): string {
+    return this._event.parameters[1].value.toString();
+  }
+}
+
 export class Forecast__getReputationResult {
   value0: BigInt;
   value1: BigInt;
@@ -148,6 +170,21 @@ export class Forecast extends ethereum.SmartContract {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
       ethereum.Value.fromAddress(owner)
     ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  create(): BigInt {
+    let result = super.call("create", "create():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_create(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("create", "create():(uint256)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -269,25 +306,6 @@ export class Forecast extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  post(tokenURI: string): BigInt {
-    let result = super.call("post", "post(string):(uint256)", [
-      ethereum.Value.fromString(tokenURI)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_post(tokenURI: string): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("post", "post(string):(uint256)", [
-      ethereum.Value.fromString(tokenURI)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   supportsInterface(interfaceId: Bytes): boolean {
     let result = super.call(
       "supportsInterface",
@@ -406,32 +424,28 @@ export class ApproveCall__Outputs {
   }
 }
 
-export class PostCall extends ethereum.Call {
-  get inputs(): PostCall__Inputs {
-    return new PostCall__Inputs(this);
+export class CreateCall extends ethereum.Call {
+  get inputs(): CreateCall__Inputs {
+    return new CreateCall__Inputs(this);
   }
 
-  get outputs(): PostCall__Outputs {
-    return new PostCall__Outputs(this);
+  get outputs(): CreateCall__Outputs {
+    return new CreateCall__Outputs(this);
   }
 }
 
-export class PostCall__Inputs {
-  _call: PostCall;
+export class CreateCall__Inputs {
+  _call: CreateCall;
 
-  constructor(call: PostCall) {
+  constructor(call: CreateCall) {
     this._call = call;
   }
-
-  get tokenURI(): string {
-    return this._call.inputValues[0].value.toString();
-  }
 }
 
-export class PostCall__Outputs {
-  _call: PostCall;
+export class CreateCall__Outputs {
+  _call: CreateCall;
 
-  constructor(call: PostCall) {
+  constructor(call: CreateCall) {
     this._call = call;
   }
 
@@ -550,6 +564,40 @@ export class SetApprovalForAllCall__Outputs {
   _call: SetApprovalForAllCall;
 
   constructor(call: SetApprovalForAllCall) {
+    this._call = call;
+  }
+}
+
+export class SetURICall extends ethereum.Call {
+  get inputs(): SetURICall__Inputs {
+    return new SetURICall__Inputs(this);
+  }
+
+  get outputs(): SetURICall__Outputs {
+    return new SetURICall__Outputs(this);
+  }
+}
+
+export class SetURICall__Inputs {
+  _call: SetURICall;
+
+  constructor(call: SetURICall) {
+    this._call = call;
+  }
+
+  get tokenId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get tknURI(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+}
+
+export class SetURICall__Outputs {
+  _call: SetURICall;
+
+  constructor(call: SetURICall) {
     this._call = call;
   }
 }
