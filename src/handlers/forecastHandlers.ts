@@ -18,6 +18,7 @@ export function handleTransfer(event: Transfer): void {
   let forecast = Forecast.load(event.params.tokenId.toString());
   if (!forecast) {
     forecast = new Forecast(event.params.tokenId.toString());
+    forecast.createdDate = event.block.timestamp;
   }
   // Update forecat params
   forecast.owner = trader.id;

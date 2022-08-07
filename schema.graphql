@@ -6,6 +6,7 @@ type Trader @entity {
 
 type Forecast @entity {
   id: ID!
+  createdDate: BigInt!
   author: String!
   owner: String!
   uri: String

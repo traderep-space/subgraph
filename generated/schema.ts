@@ -69,6 +69,7 @@ export class Forecast extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
+    this.set("createdDate", Value.fromBigInt(BigInt.zero()));
     this.set("author", Value.fromString(""));
     this.set("owner", Value.fromString(""));
   }
@@ -96,6 +97,15 @@ export class Forecast extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get createdDate(): BigInt {
+    let value = this.get("createdDate");
+    return value!.toBigInt();
+  }
+
+  set createdDate(value: BigInt) {
+    this.set("createdDate", Value.fromBigInt(value));
   }
 
   get author(): string {
