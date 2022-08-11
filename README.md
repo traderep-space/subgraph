@@ -1,4 +1,8 @@
-# Traderep Metabolism Subgraph
+# Traderep Subgraph
+
+## Subgraph links
+
+- Development - https://thegraph.com/hosted-service/subgraph/kiv1n/traderep-dev
 
 ## Commands
 
@@ -7,7 +11,3 @@
 - Set deployment key: `graph auth`
 - Update generated code: `yarn codegen`
 - Deploy to development subgraph: `yarn deploy-dev`
-
-## Subgraph
-
-- Development - https://thegraph.com/hosted-service/subgraph/kiv1n/traderep-metabolism-dev
