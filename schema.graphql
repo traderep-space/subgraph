@@ -12,6 +12,6 @@ type Forecast @entity {
   uri: String
   symbol: String
   type: String
-  isVerified: Boolean
+  isVerified: Boolean!
   isTrue: Boolean
 }
