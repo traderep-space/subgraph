@@ -43,11 +43,15 @@ export function handleURISet(event: URISet): void {
   // Parse uri json
   let uriJson = uriData ? json.fromBytes(uriData) : null;
   let uriJsonObject = uriJson ? uriJson.toObject() : null;
+  // Get symbol from uri data
+  let uriJsonSymbol = uriJsonObject ? uriJsonObject.get("symbol") : null;
+  let uriJsonSymbolString = uriJsonSymbol ? uriJsonSymbol.toString() : null;
   // Get type from uri data
   let uriJsonType = uriJsonObject ? uriJsonObject.get("type") : null;
   let uriJsonTypeString = uriJsonType ? uriJsonType.toString() : null;
   // Update forecast params
   forecast.uri = event.params.tokenURI;
+  forecast.symbol = uriJsonSymbolString;
   forecast.type = uriJsonTypeString;
   forecast.save();
 }

@@ -143,6 +143,23 @@ export class Forecast extends Entity {
     }
   }
 
+  get symbol(): string | null {
+    let value = this.get("symbol");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set symbol(value: string | null) {
+    if (!value) {
+      this.unset("symbol");
+    } else {
+      this.set("symbol", Value.fromString(<string>value));
+    }
+  }
+
   get type(): string | null {
     let value = this.get("type");
     if (!value || value.kind == ValueKind.NULL) {
