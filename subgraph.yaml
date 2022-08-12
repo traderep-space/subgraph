@@ -9,9 +9,9 @@ dataSources:
     name: Forecast
     network: mumbai
     source:
-      address: "0x377B7EEB5A5a31DCC14b4EB06E1E4f9EB2a37910"
+      address: "0xA6850A7B61a527B570EB6f5985D212230a4abd13"
       abi: Forecast
-      startBlock: 27572608
+      startBlock: 27585592
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

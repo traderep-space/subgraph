@@ -1,4 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, ipfs, json } from "@graphprotocol/graph-ts";
 import {
   ReputationUpdate,
   Transfer,
@@ -37,8 +37,18 @@ export function handleURISet(event: URISet): void {
   if (!forecast) {
     return;
   }
+  // Load uri data
+  let uriIpfsHash = event.params.tokenURI.split("/").at(-1);
+  let uriData = ipfs.cat(uriIpfsHash);
+  // Parse uri json
+  let uriJson = uriData ? json.fromBytes(uriData) : null;
+  let uriJsonObject = uriJson ? uriJson.toObject() : null;
+  // Get type from uri data
+  let uriJsonType = uriJsonObject ? uriJsonObject.get("type") : null;
+  let uriJsonTypeString = uriJsonType ? uriJsonType.toString() : null;
   // Update forecast params
   forecast.uri = event.params.tokenURI;
+  forecast.type = uriJsonTypeString;
   forecast.save();
 }
 

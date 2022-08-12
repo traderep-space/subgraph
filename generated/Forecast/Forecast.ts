@@ -214,6 +214,29 @@ export class Forecast extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  createWithURI(tknURI: string): BigInt {
+    let result = super.call(
+      "createWithURI",
+      "createWithURI(string):(uint256)",
+      [ethereum.Value.fromString(tknURI)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_createWithURI(tknURI: string): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "createWithURI",
+      "createWithURI(string):(uint256)",
+      [ethereum.Value.fromString(tknURI)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   getApproved(tokenId: BigInt): Address {
     let result = super.call("getApproved", "getApproved(uint256):(address)", [
       ethereum.Value.fromUnsignedBigInt(tokenId)
@@ -468,6 +491,40 @@ export class CreateCall__Outputs {
   _call: CreateCall;
 
   constructor(call: CreateCall) {
+    this._call = call;
+  }
+
+  get value0(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
+  }
+}
+
+export class CreateWithURICall extends ethereum.Call {
+  get inputs(): CreateWithURICall__Inputs {
+    return new CreateWithURICall__Inputs(this);
+  }
+
+  get outputs(): CreateWithURICall__Outputs {
+    return new CreateWithURICall__Outputs(this);
+  }
+}
+
+export class CreateWithURICall__Inputs {
+  _call: CreateWithURICall;
+
+  constructor(call: CreateWithURICall) {
+    this._call = call;
+  }
+
+  get tknURI(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+}
+
+export class CreateWithURICall__Outputs {
+  _call: CreateWithURICall;
+
+  constructor(call: CreateWithURICall) {
     this._call = call;
   }
 
