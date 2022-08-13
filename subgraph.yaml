@@ -4,6 +4,29 @@ schema:
 features:
   - ipfsOnEthereumContracts
 dataSources:
+  # Bio contract
+  - kind: ethereum
+    name: Bio
+    network: mumbai
+    source:
+      address: "0x5d776915F06958434E0C05eC75194FDC5f759548"
+      abi: Bio
+      startBlock: 27604390
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Bio
+      abis:
+        - name: Bio
+          file: ./abis/Bio.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: URISet(indexed uint256,string)
+          handler: handleURISet
+      file: ./src/handlers/bioHandlers.ts
   # Forecast contract
   - kind: ethereum
     name: Forecast

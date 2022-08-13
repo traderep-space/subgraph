@@ -4,11 +4,17 @@ type Trader @entity {
   negativeReputation: BigInt!
 }
 
+type Bio @entity {
+  id: ID! # token id
+  owner: String # account address
+  uri: String
+}
+
 type Forecast @entity {
-  id: ID!
+  id: ID! # token id
   createdDate: BigInt!
-  author: String!
-  owner: String!
+  author: String! # account address
+  owner: String! # account address
   uri: String
   symbol: String
   type: String

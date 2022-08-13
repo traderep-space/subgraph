@@ -62,32 +62,6 @@ export class ApprovalForAll__Params {
   }
 }
 
-export class ReputationUpdate extends ethereum.Event {
-  get params(): ReputationUpdate__Params {
-    return new ReputationUpdate__Params(this);
-  }
-}
-
-export class ReputationUpdate__Params {
-  _event: ReputationUpdate;
-
-  constructor(event: ReputationUpdate) {
-    this._event = event;
-  }
-
-  get account(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get positiveReputation(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get negativeReputation(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
 export class Transfer extends ethereum.Event {
   get params(): Transfer__Params {
     return new Transfer__Params(this);
@@ -136,48 +110,9 @@ export class URISet__Params {
   }
 }
 
-export class Verify extends ethereum.Event {
-  get params(): Verify__Params {
-    return new Verify__Params(this);
-  }
-}
-
-export class Verify__Params {
-  _event: Verify;
-
-  constructor(event: Verify) {
-    this._event = event;
-  }
-
-  get tokenId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get isTrue(): boolean {
-    return this._event.parameters[1].value.toBoolean();
-  }
-}
-
-export class Forecast__getReputationResult {
-  value0: BigInt;
-  value1: BigInt;
-
-  constructor(value0: BigInt, value1: BigInt) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
-    return map;
-  }
-}
-
-export class Forecast extends ethereum.SmartContract {
-  static bind(address: Address): Forecast {
-    return new Forecast("Forecast", address);
+export class Bio extends ethereum.SmartContract {
+  static bind(address: Address): Bio {
+    return new Bio("Bio", address);
   }
 
   balanceOf(owner: Address): BigInt {
@@ -192,44 +127,6 @@ export class Forecast extends ethereum.SmartContract {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
       ethereum.Value.fromAddress(owner)
     ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  create(): BigInt {
-    let result = super.call("create", "create():(uint256)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_create(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("create", "create():(uint256)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  createWithURI(tknURI: string): BigInt {
-    let result = super.call(
-      "createWithURI",
-      "createWithURI(string):(uint256)",
-      [ethereum.Value.fromString(tknURI)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_createWithURI(tknURI: string): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "createWithURI",
-      "createWithURI(string):(uint256)",
-      [ethereum.Value.fromString(tknURI)]
-    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -256,39 +153,6 @@ export class Forecast extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  getReputation(account: Address): Forecast__getReputationResult {
-    let result = super.call(
-      "getReputation",
-      "getReputation(address):(uint256,uint256)",
-      [ethereum.Value.fromAddress(account)]
-    );
-
-    return new Forecast__getReputationResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
-  }
-
-  try_getReputation(
-    account: Address
-  ): ethereum.CallResult<Forecast__getReputationResult> {
-    let result = super.tryCall(
-      "getReputation",
-      "getReputation(address):(uint256,uint256)",
-      [ethereum.Value.fromAddress(account)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new Forecast__getReputationResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
-    );
   }
 
   isApprovedForAll(owner: Address, operator: Address): boolean {
@@ -469,70 +333,6 @@ export class ApproveCall__Outputs {
   }
 }
 
-export class CreateCall extends ethereum.Call {
-  get inputs(): CreateCall__Inputs {
-    return new CreateCall__Inputs(this);
-  }
-
-  get outputs(): CreateCall__Outputs {
-    return new CreateCall__Outputs(this);
-  }
-}
-
-export class CreateCall__Inputs {
-  _call: CreateCall;
-
-  constructor(call: CreateCall) {
-    this._call = call;
-  }
-}
-
-export class CreateCall__Outputs {
-  _call: CreateCall;
-
-  constructor(call: CreateCall) {
-    this._call = call;
-  }
-
-  get value0(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
-  }
-}
-
-export class CreateWithURICall extends ethereum.Call {
-  get inputs(): CreateWithURICall__Inputs {
-    return new CreateWithURICall__Inputs(this);
-  }
-
-  get outputs(): CreateWithURICall__Outputs {
-    return new CreateWithURICall__Outputs(this);
-  }
-}
-
-export class CreateWithURICall__Inputs {
-  _call: CreateWithURICall;
-
-  constructor(call: CreateWithURICall) {
-    this._call = call;
-  }
-
-  get tknURI(): string {
-    return this._call.inputValues[0].value.toString();
-  }
-}
-
-export class CreateWithURICall__Outputs {
-  _call: CreateWithURICall;
-
-  constructor(call: CreateWithURICall) {
-    this._call = call;
-  }
-
-  get value0(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
-  }
-}
-
 export class SafeTransferFromCall extends ethereum.Call {
   get inputs(): SafeTransferFromCall__Inputs {
     return new SafeTransferFromCall__Inputs(this);
@@ -613,40 +413,6 @@ export class SafeTransferFrom1Call__Outputs {
   }
 }
 
-export class SaveVerificationResultsCall extends ethereum.Call {
-  get inputs(): SaveVerificationResultsCall__Inputs {
-    return new SaveVerificationResultsCall__Inputs(this);
-  }
-
-  get outputs(): SaveVerificationResultsCall__Outputs {
-    return new SaveVerificationResultsCall__Outputs(this);
-  }
-}
-
-export class SaveVerificationResultsCall__Inputs {
-  _call: SaveVerificationResultsCall;
-
-  constructor(call: SaveVerificationResultsCall) {
-    this._call = call;
-  }
-
-  get tokenIds(): Array<BigInt> {
-    return this._call.inputValues[0].value.toBigIntArray();
-  }
-
-  get tokenVerificationResults(): Array<boolean> {
-    return this._call.inputValues[1].value.toBooleanArray();
-  }
-}
-
-export class SaveVerificationResultsCall__Outputs {
-  _call: SaveVerificationResultsCall;
-
-  constructor(call: SaveVerificationResultsCall) {
-    this._call = call;
-  }
-}
-
 export class SetApprovalForAllCall extends ethereum.Call {
   get inputs(): SetApprovalForAllCall__Inputs {
     return new SetApprovalForAllCall__Inputs(this);
@@ -698,12 +464,8 @@ export class SetURICall__Inputs {
     this._call = call;
   }
 
-  get tokenId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get tknURI(): string {
-    return this._call.inputValues[1].value.toString();
+  get tokenURI(): string {
+    return this._call.inputValues[0].value.toString();
   }
 }
 
