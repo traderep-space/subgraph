@@ -21,3 +21,8 @@ type Forecast @entity {
   isVerified: Boolean!
   isTrue: Boolean
 }
+
+type EarlyAdopterToken @entity {
+  id: ID! # token id
+  owner: String # account address
+}

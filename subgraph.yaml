@@ -55,3 +55,24 @@ dataSources:
         - event: ReputationUpdate(address,uint256,uint256)
           handler: handleReputationUpdate
       file: ./src/handlers/forecastHandlers.ts
+  # Early adopter token contract
+  - kind: ethereum
+    name: EarlyAdopterToken
+    network: mumbai
+    source:
+      address: "0xC3Ce59992D266b0ADB985Bf6De78b2d5A3191beB"
+      abi: EarlyAdopterToken
+      startBlock: 27941715
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - EarlyAdopterToken
+      abis:
+        - name: EarlyAdopterToken
+          file: ./abis/EarlyAdopterToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/handlers/earlyAdopterTokenHandlers.ts

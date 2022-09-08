@@ -262,3 +262,54 @@ export class Forecast extends Entity {
     this.set("isTrue", Value.fromBoolean(value));
   }
 }
+
+export class EarlyAdopterToken extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save EarlyAdopterToken entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type EarlyAdopterToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("EarlyAdopterToken", id.toString(), this);
+    }
+  }
+
+  static load(id: string): EarlyAdopterToken | null {
+    return changetype<EarlyAdopterToken | null>(
+      store.get("EarlyAdopterToken", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): string | null {
+    let value = this.get("owner");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set owner(value: string | null) {
+    if (!value) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromString(<string>value));
+    }
+  }
+}
