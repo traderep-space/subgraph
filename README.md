@@ -11,3 +11,4 @@
 - Set deployment key: `graph auth`
 - Update generated code: `yarn codegen`
 - Deploy to development subgraph: `yarn deploy-dev`
+- Deploy to production subgraph: `yarn deploy-prod`
